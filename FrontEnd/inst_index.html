@@ -1,0 +1,38 @@
+<html>
+<head>
+<title>NJIT Instructor Home</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+.center {
+  padding: 70px 0;
+  border: 3px solid red;
+  text-align: center;
+      -webkit-box-shadow: 7px 10px 16px -5px rgba(0,0,0,0.6);
+    -moz-box-shadow: 7px 10px 16px -5px rgba(0,0,0,0.6);
+    box-shadow: 7px 10px 16px -5px rgba(0,0,0,0.6); 
+}
+
+</style>
+</head>
+<body>
+<p><span id="msg"></span> | <a href="/~lr66/cs490/login.html" onclick="logOff()">Log Off</a></p>
+<h2 style="font-variant:small-caps">Home</h2>
+<div class="center">
+  <a href="/~lr66/cs490/newQuestion.html">Add a Question to Test Bank</a></br>
+  <a href="/~lr66/cs490/create_exam.html">Create Exam</a></br>
+  <a href="/~lr66/cs490/confirm_grade.html">Confirm/Release Exam Grade</a> <!--storeAnswers-->
+</div>
+</body>
+</html>
+<script>
+window.onload = function() { 
+  if (localStorage.getItem('UCID')) {
+    document.getElementById('msg').innerHTML = "Welcome " + localStorage.getItem('UCID')+ "!"; 
+ }
+};
+
+function logOff(){
+  localStorage.removeItem('UCID');
+}
+
+</script>
