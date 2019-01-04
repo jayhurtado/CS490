@@ -1,0 +1,115 @@
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  div {
+    position: absolute;
+    left: 50%;
+    top: 40%;
+    transform: translate(-50%, -50%);
+  }
+  fieldset{
+    /*box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);*/
+    width:500px;
+    background:#dee1e5;
+    opacity:.9;
+    padding-top:-2em;
+    border: none;
+    -webkit-box-shadow: 7px 10px 16px -5px rgba(0,0,0,0.6);
+    -moz-box-shadow: 7px 10px 16px -5px rgba(0,0,0,0.6);
+    box-shadow: 7px 10px 16px -5px rgba(0,0,0,0.6);       
+  }
+  legend{
+    font-size: 20px;
+  }
+  input[type='text'], input[type='password']{
+    width:300px;
+    float:right;
+  }
+  body{
+   background-image: url("https://web.njit.edu/~lr66/cs490/njit.jpg");
+   /*background: #dee1e5;*/
+   opacity:.9
+  }
+  input[type='button']{
+    padding:5px;
+    margin-left: 5px;
+    float:right;
+  }
+  
+</style>
+<script>
+  function getAnswer(){
+    // Captures user input
+    var un = document.getElementById('UCID').value;
+    var pw = document.getElementById('password').value;
+    if(un.length == 0 | pw.length == 0 ){
+        document.getElementById('text').innerHTML = "Please enter both UCID and password to log in.";
+      return false;
+    }
+    else{
+      document.getElementById('text').innerHTML = "";
+    }
+    var params = "UCID="+un+"&password="+pw;
+    // Ajax POST request to server
+    var xmlhttp = new XMLHttpRequest();
+      xmlhttp.open("POST", "curlpost.php", true);
+      xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      xmlhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        // Captures server response
+        var resp = xmlhttp.responseText;
+        // Find relevant sunstrings in response 
+        var lsucc=resp.indexOf("true");
+        var role=resp.indexOf("teacher");
+
+        // Displays server response to client
+        if(lsucc > -1){
+          (function (global){
+        global.localStorage.setItem('UCID',un);
+        }(window));
+          if(role > -1){ 
+            //redirects to teacher view
+            window.location.pathname = '/~lr66/cs490/inst_index.html';
+          }else{
+            //redirects to student view
+            window.location.pathname = '/~lr66/cs490/st_index.html';
+          }  
+        }
+        else{
+          document.getElementById('njitRes').innerHTML = "UCID/Password incorrect!";
+        }
+      }
+      };
+      // Executes request to server
+      xmlhttp.send(params);
+  }
+  
+
+</script>
+<body>
+  <!--img class="img1" src="https://web.njit.edu/~lr66/cs490/njitlogo.png" alt="Logo" width="450" height="170"-->
+<div>
+<form>
+  <p><span id="text" style="color:red"></span></p>
+  <fieldset class="text-center">
+  <legend style="font-variant:petite-caps; padding-top:2em;"><strong>Enter valid credentials to log in.</strong></legend>
+  <p>
+    <label for="UCID">UCID: </label>
+    <input id="UCID" type="text" placeholder="UCID">
+  </p>
+  <p>
+    <label for="UCID">Password: </label>
+    <input id="password" type="password" placeholder="Password">
+  </p>
+  <input type="button" value="Submit" onclick="getAnswer()">
+  <input type="button" value="Refresh" onclick="window.location.reload();">
+  </fieldset>
+</form>
+  <p><span id="njitRes" style="color:blue"></span></p>
+  <p><span id="dbRes" style="color:blue"></span></p>
+  </div>
+</body>
+</head>
+</html>
+
