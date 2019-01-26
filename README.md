@@ -4,10 +4,10 @@ three tier layer architecture. Created a web-based examination system for Python
 
 link to login page: https://web.njit.edu/~lr66/cs490/login.html
 
-professor login:
+**professor login:**
   username: njitteach
-  password: njitrules
+  password: njitrocks
   
-student login: 
+**student login:**
   username: jh465
   password: saintnick
